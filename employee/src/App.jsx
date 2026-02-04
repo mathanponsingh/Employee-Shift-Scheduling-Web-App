@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useThemeStore } from "./store/themeStore";
+import { useThemeStore } from "./store/ThemeStore";
 import { Route, Routes } from "react-router";
 import Login from "./pages/Login";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
