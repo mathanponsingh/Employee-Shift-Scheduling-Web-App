@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 app.use(
   cors({
-    origin: true,
+    origin: [https://employee-shift-scheduling-employee.vercel.app,https://employee-shift-scheduling-admin.vercel.app],
       // ADD YOUR PRODUCTION FRONTEND URLs HERE
       // "https://your-admin-app.vercel.app",
       // "https://your-employee-app.vercel.app",
