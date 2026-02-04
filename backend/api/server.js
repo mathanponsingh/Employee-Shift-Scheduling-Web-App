@@ -27,6 +27,10 @@ app.use(
   }),
 );
 
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "OK", service: "backend" });
+});
+
 // ----------------- ROUTES -----------------
 app.use("/admin", adminRouter); // All admin routes: /auth/admin/...
 app.use("/employee", employeeRouter); // All employee routes: /auth/employee/...
