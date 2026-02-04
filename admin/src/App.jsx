@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Layout from "./pages/Layout";
-import Home from "./pages/Home";
+import Layout from "./Pages/Layout";
+import Home from "./Pages/Home";
 import Employee from "./Pages/Employee";
 import Schedule from "./Pages/Schedule";
 import Login from "./Pages/Login";
