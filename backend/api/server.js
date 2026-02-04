@@ -12,8 +12,8 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://your-admin-app.vercel.app", // production admin
-      "https://your-employee-app.vercel.app", // production employee
+      "https://employee-shift-scheduling-admin.vercel.app" // production admin
+      "https://employee-shift-scheduling-employee.vercel.app/", // production employee
     ],
     credentials: true, // allow cookies
   }),
