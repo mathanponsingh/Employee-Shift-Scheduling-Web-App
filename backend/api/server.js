@@ -13,7 +13,6 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", // local frontend
       "https://your-admin-app.vercel.app", // production admin
       "https://your-employee-app.vercel.app", // production employee
     ],
