@@ -196,14 +196,14 @@ export const deleteEmployee = async (req, res) => {
     const { id } = req.params;
     console.log(id);
     // Check if employee exists
-    const [rows] = await db.query("SELECT * FROM EMPLOYEES WHERE id = ?", [id]);
+    const [rows] = await db.query("SELECT * FROM employees WHERE id = ?", [id]);
 
     if (rows.length == 0) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
     // Delete employee
-    await db.query("DELETE FROM EMPLOYEES WHERE id = ?", [id]);
+    await db.query("DELETE FROM employees WHERE id = ?", [id]);
 
     return res.status(200).json({ message: "Employee deleted successfully" });
   } catch (error) {
@@ -237,7 +237,7 @@ export const updateEmployee = async (req, res) => {
 
     // Update employee
     const [rows] = await db.query(
-      "UPDATE EMPLOYEES SET name = ? , email = ? WHERE id = ?",
+      "UPDATE employees SET name = ? , email = ? WHERE id = ?",
       [name, email, id],
     );
 
