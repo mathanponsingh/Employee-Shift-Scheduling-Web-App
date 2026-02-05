@@ -8,7 +8,10 @@ import cookieParser from "cookie-parser";
 const app = express();
 app.use(
   cors({
-    origin: [https://employee-shift-scheduling-employee.vercel.app,https://employee-shift-scheduling-admin.vercel.app],
+    origin: [
+      "https://employee-shift-scheduling-employee.vercel.app",
+      "https://employee-shift-scheduling-admin.vercel.app",
+    ],
       // ADD YOUR PRODUCTION FRONTEND URLs HERE
       // "https://your-admin-app.vercel.app",
       // "https://your-employee-app.vercel.app",
@@ -22,9 +25,17 @@ app.use(
   }),
 );
 
+app.get("/", (req, res) => {
+  res.send("Backend is running properly");
+});
+
 app.use("/auth", adminRouter);
 app.use("/auth", employeeRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
+
+export default app;
