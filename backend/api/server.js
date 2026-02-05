@@ -2,7 +2,6 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import "dotenv/config";
 
 import adminRouter from "../routes/adminRoutes.js";
 import employeeRouter from "../routes/employeeRoutes.js";
@@ -13,9 +12,8 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", // local frontend
-      "https://your-admin-app.vercel.app", // production admin
-      "https://your-employee-app.vercel.app", // production employee
+      "https://employee-shift-scheduling-admin.vercel.app", // production admin
+      "https://employee-shift-scheduling-employee.vercel.app", // production employee
     ],
     credentials: true, // allow cookies
   }),
@@ -28,6 +26,10 @@ app.use(
     limit: "10mb",
   }),
 );
+
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "OK", service: "backend" });
+});
 
 // ----------------- ROUTES -----------------
 app.use("/admin", adminRouter); // All admin routes: /auth/admin/...

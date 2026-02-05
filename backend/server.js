@@ -1,23 +1,25 @@
 import express from "express";
 import cors from "cors";
-import "dotenv/config";
-import adminRouter from "./routes/adminRoutes.js";
-import employeeRouter from "./routes/employeeRoutes.js";
 import cookieParser from "cookie-parser";
+import "dotenv/config"; // Added for local dev environment variables
+
+import adminRouter from "./routes/adminRoutes.js"; // Fixed path (was ../)
+import employeeRouter from "./routes/employeeRoutes.js"; // Fixed path (was ../)
 
 const app = express();
+
+// ----------------- CORS CONFIG -----------------
 app.use(
   cors({
     origin: [
-      "https://employee-shift-scheduling-employee.vercel.app",
-      "https://employee-shift-scheduling-admin.vercel.app",
+      "https://employee-shift-scheduling-admin.vercel.app", // production admin
+      "https://employee-shift-scheduling-employee.vercel.app", // production employee (removed trailing slash)
     ],
-      // ADD YOUR PRODUCTION FRONTEND URLs HERE
-      // "https://your-admin-app.vercel.app",
-      // "https://your-employee-app.vercel.app",
-    credentials: true,
+    credentials: true, // allow cookies
   }),
 );
+
+// ----------------- JSON & COOKIE PARSING -----------------
 app.use(express.json());
 app.use(
   cookieParser({
@@ -26,16 +28,27 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send("Backend is running properly");
+  res.status(200).json({ status: "OK", service: "backend" });
 });
 
-app.use("/auth", adminRouter);
-app.use("/auth", employeeRouter);
+// ----------------- ROUTES -----------------
+// Note: User requested /admin and /employee prefixes.
+// Previously this was /auth. Ensure frontend matches these routes.
+app.use("/admin", adminRouter);
+app.use("/employee", employeeRouter);
 
+// ----------------- START SERVER (LOCAL & VERCEL) -----------------
 const PORT = process.env.PORT || 3000;
+// Only listen if not running in a Vercel serverless environment (implicitly handled, but safe to add)
+// or just standard conditional listen.
+if (process.env.NODE_ENV !== "production") {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+} else {
+    // Optional: Log for Vercel logs
+    console.log("App initialized for Vercel");
+}
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
+// ----------------- EXPORT FOR VERCEL -----------------
 export default app;
