@@ -1,4 +1,3 @@
-// server.jsx
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -8,32 +7,44 @@ import employeeRouter from "../routes/employeeRoutes.js";
 
 const app = express();
 
-// ----------------- CORS CONFIG -----------------
+// ----------------- DYNAMIC CORS CONFIG -----------------
+const allowedOrigins = [
+  "https://employee-shift-scheduling-admin.vercel.app",
+  "https://employee-shift-scheduling-employee.vercel.app",
+  // This Regex allows any Vercel preview URL from your project
+  /\.vercel\.app$/ 
+];
+
 app.use(
   cors({
-    origin: [
-      "https://employee-shift-scheduling-admin.vercel.app", // production admin
-      "https://employee-shift-scheduling-employee.vercel.app", // production employee
-    ],
-    credentials: true, // allow cookies
-  }),
+    origin: function (origin, callback) {
+      // allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      
+      const isAllowed = allowedOrigins.some((allowed) => {
+        return allowed instanceof RegExp ? allowed.test(origin) : allowed === origin;
+      });
+
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
 );
 
 // ----------------- JSON & COOKIE PARSING -----------------
 app.use(express.json());
-app.use(
-  cookieParser({
-    limit: "10mb",
-  }),
-);
+app.use(cookieParser()); // Note: limit is usually for body-parser, not cookie-parser
 
 app.get("/", (req, res) => {
   res.status(200).json({ status: "OK", service: "backend" });
 });
 
 // ----------------- ROUTES -----------------
-app.use("/auth", adminRouter); // All admin routes: /auth/admin/...
-app.use("/auth", employeeRouter); // All employee routes: /auth/employee/...
+app.use("/admin", adminRouter); // All admin routes: /auth/admin/...
+app.use("/employee", employeeRouter); // All employee routes: /auth/employee/...
 
-// ----------------- EXPORT FOR VERCEL -----------------
 export default app;
