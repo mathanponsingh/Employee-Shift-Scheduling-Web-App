@@ -44,8 +44,8 @@ const EmployeesPage = () => {
 
   // Fetch admin list
   useEffect(() => {
-    getAdmins();
-  }, [admins]);
+      getAdmins();
+  }, []);
 
   // Utility function: get initials from name
   const getInitials = (name = "") =>
