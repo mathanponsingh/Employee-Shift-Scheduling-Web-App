@@ -16,7 +16,7 @@ const App = () => {
   
   useEffect(()=>{
     checkAuth()
-  },[admin])
+  },[])
     
   return (
     <div data-theme={theme}>
