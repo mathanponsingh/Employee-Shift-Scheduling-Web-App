@@ -194,7 +194,7 @@ export const getEmployees = async (req, res) => {
 export const deleteEmployee = async (req, res) => {
   try {
     const { id } = req.params;
-
+    console.log(id);
     // Check if employee exists
     const [rows] = await db.query("SELECT * FROM EMPLOYEES WHERE id = ?", [id]);
 
