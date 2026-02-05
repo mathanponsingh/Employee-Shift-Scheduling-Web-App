@@ -20,7 +20,7 @@ import { protect } from "../middleware/protect.js";
 const adminRouter = express.Router();
 
 adminRouter.post("/admin-signup", adminSignup);
-adminRouter.post("/admin-login", adminLogin);
+adminRouter.post("/admin-login", adminLogin)
 adminRouter.post("/employees", protect, createEmployee);
 adminRouter.get("/employees", protect, getEmployees);
 adminRouter.delete("/employees/:id", protect, deleteEmployee);
