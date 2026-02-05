@@ -148,47 +148,45 @@ export const createEmployee = async (req, res) => {
 // ===================== GET EMPLOYEES (WITH PAGINATION & SEARCH) =====================
 export const getEmployees = async (req, res) => {
   try {
-    // Extract query params
-    const { page = 1, limit = 10, search = "" } = req.query;
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || "";
     const offset = (page - 1) * limit;
 
-    // Base SQL queries
-    let sql = "SELECT * FROM EMPLOYEES";
-    let countSql = "SELECT COUNT(*) as total FROM EMPLOYEES";
+    let sql = "SELECT * FROM employees"; // lowercase table name
+    let countSql = "SELECT COUNT(*) as total FROM employees";
     const params = [];
 
-    // Add search condition if provided
     if (search) {
-      const searchCondition = " WHERE name LIKE ? OR email LIKE ?";
-      sql += searchCondition;
-      countSql += searchCondition;
+      const condition = " WHERE name LIKE ? OR email LIKE ?";
+      sql += condition;
+      countSql += condition;
       params.push(`%${search}%`, `%${search}%`);
     }
 
-    // Add pagination
     sql += " LIMIT ? OFFSET ?";
-    params.push(parseInt(limit), parseInt(offset));
+    params.push(limit, offset);
 
-    // Execute employee query
     const [rows] = await db.query(sql, params);
 
-    // Execute count query for pagination info
+    // Count query params
     const countParams = search ? [`%${search}%`, `%${search}%`] : [];
     const [countResult] = await db.query(countSql, countParams);
+
     const total = countResult[0].total;
 
     return res.status(200).json({
       employees: rows,
       pagination: {
         total,
-        page: parseInt(page),
-        limit: parseInt(limit),
+        page,
+        limit,
         totalPages: Math.ceil(total / limit),
       },
     });
-  } catch (error) {
-    console.log("Error comes from GetEmployee Controller ", error);
-    res.status(500).json({ message: "Internal server error" });
+  } catch (err) {
+    console.error("Error fetching employees:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
