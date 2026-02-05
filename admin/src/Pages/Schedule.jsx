@@ -110,7 +110,7 @@ const Schedule = () => {
     return format(date, "MMM d, yyyy");
   };
 
-  useEffect(()=>{getShifts()},[shifts])
+  useEffect(()=>{getShifts()},[])
 
   return (
     <div className="min-h-screen border p-6 ">
