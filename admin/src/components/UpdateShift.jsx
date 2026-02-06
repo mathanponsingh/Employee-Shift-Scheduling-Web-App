@@ -6,7 +6,7 @@ import { UseEmployeeStore } from "../store/StateManager";
 const UpdateShift = ({ id, name, setShowUpdate }) => {
 
   const { updateShifts } = UseEmployeeStore();
-
+  const [ loading, setLoading] = useState(false)
   // Local form state
   const [form, setForm] = useState({
     id, 
@@ -18,10 +18,10 @@ const UpdateShift = ({ id, name, setShowUpdate }) => {
   // Form submit handler
   const submitHandler = async (e) => {
     e.preventDefault(); // Prevent page reload
-
+    setLoading(true)
     // Call update shift action
     await updateShifts(form);
-
+    setLoading(false)
     // Close modal after update
     setShowUpdate(false);
   };
@@ -84,6 +84,7 @@ const UpdateShift = ({ id, name, setShowUpdate }) => {
         {/* Submit button */}
         <button
           type="submit"
+          disabled={loading}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium"
         >
           Assign Shift
