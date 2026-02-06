@@ -123,7 +123,7 @@ const EmployeeDashboard = () => {
             <p className="text-blue-100 italic">Don't be late!</p>
           </div>
         ) : (
-          <div className="bg-blue-600 rounded-3xl p-10 text-white mb-10 shadow-xl shadow-blue-100">
+          <div className="bg-blue-600 rounded-3xl p-10  mb-10 ">
             <div className="flex items-center gap-2 mb-4">
               <ClockIcon /> <span>Current Shift</span>
             </div>
@@ -135,7 +135,7 @@ const EmployeeDashboard = () => {
 
         {/* Upcoming List */}
         {sortedShifts.length > 0 ? (
-          <div className="bg-white rounded-3xl border border-slate-200 p-8">
+          <div className="rounded-3xl border border-slate-200 p-8">
             <h3 className="text-xl font-bold mb-1 flex items-center gap-2">
               <CalendarIcon /> Upcoming Shifts
             </h3>
@@ -156,7 +156,7 @@ const EmployeeDashboard = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-3xl border border-slate-200 p-8">
+          <div className=" rounded-3xl border border-slate-200 p-8">
             <h3 className="text-xl font-bold mb-1 flex items-center gap-2">
               <CalendarIcon /> Upcoming Shifts
             </h3>
