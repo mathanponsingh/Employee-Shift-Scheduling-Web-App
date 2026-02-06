@@ -7,7 +7,7 @@ import { useState } from "react";
 const Header = () => {
   // Logout function from global store
   const { logout } = UseEmployeeStore();
-  const [show,setShow] = useState()
+  const [show,setShow] = useState(false)
   // Navigation hook
   const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ const Header = () => {
           {/* Mobile menu */}
           <div className="sm:hidden relative group">
             {/* Hamburger icon */}
-            <MenuSquareIcon className="cursor-pointer" />
+            <MenuSquareIcon className="cursor-pointer" onClick={() => setShow(true)}/>
 
             {/* Dropdown menu (shown on hover) */}
             <div
@@ -104,7 +104,7 @@ const Header = () => {
                     isActive ? "text-blue-600 font-semibold" : ""
                   }`
                 }
-                to="/Settings"
+                to="/settings"
               >
                 Settings
               </NavLink>
