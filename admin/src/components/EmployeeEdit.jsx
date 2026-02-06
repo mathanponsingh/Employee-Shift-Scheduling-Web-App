@@ -27,6 +27,7 @@ const AddEmployeeModal = ({ isOpen, onClose }) => {
     // Create admin or employee based on role
     if (role === "Admin") {
       await createAdmin({ name: fullName, email, password });
+      await getShifts();
     } else {
       await createEmployee({ name: fullName, email, password, role });
     }
