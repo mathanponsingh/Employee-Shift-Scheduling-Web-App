@@ -81,7 +81,7 @@ const EmployeeDashboard = () => {
   }, [shifts]);
   return (
     <div className="min-h-screen ">
-      <nav className="flex items-center justify-between px-8 py-4 bg-white border-b">
+      <nav className="flex items-center justify-between px-8 py-4 border-b">
         <div className="flex items-center gap-2">
           <span className="font-bold">ShiftMaster</span>
         </div>
