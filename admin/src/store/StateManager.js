@@ -11,7 +11,7 @@ export const UseEmployeeStore = create((set) => ({
   admins: [], // Stores all admins
   LoginEmployee: null, // Stores logged-in employee data
   shifts: [], // Stores shift data
-
+  isAuthenticated:false,
   
   getShifts: async (params = {}) => {
     try {
@@ -179,7 +179,7 @@ export const UseEmployeeStore = create((set) => ({
       const response = await axiosInstance.post("/auth/admin-login", data);
 
       // Store admin data in state
-      set({ admin: response.data });
+      set({ admin: response.data,isAuthenticated:true });
 
       // Show success message
       toast.success(response.data.message);
@@ -213,6 +213,7 @@ export const UseEmployeeStore = create((set) => ({
         admin: null,
         LoginEmployee: null,
         shifts: [],
+        isAuthenticated:false
       });
 
       // Show success message
