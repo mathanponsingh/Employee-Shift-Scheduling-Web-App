@@ -3,7 +3,7 @@ import { axiosInstance } from "../utils/axiosInstance";
 import toast from "react-hot-toast";
 
 
-export const UseEmployeeStore = create((set) => ({
+export const UseEmployeeStore = create((set,get) => ({
   
   employee: [], // Stores employee list
   pagination: null, // Stores pagination details
@@ -61,17 +61,18 @@ export const UseEmployeeStore = create((set) => ({
 
   // ===================== EMPLOYEES =====================
   createEmployee: async (data) => {
-    try {
-      // Create new employee
-      const response = await axiosInstance.post("/auth/employees", data);
+  try {
+    const response = await axiosInstance.post("/auth/employees", data);
 
-      // Show success message
-      toast.success(response.data.message);
-    } catch (error) {
-      // Handle API errors safely
-      toast.error(error.response?.data.message || "Something went wrong");
-    }
-  },
+    toast.success(response.data.message);
+
+    // 🔥 REFRESH EMPLOYEES
+    await get().getEmployee({ page: 1, search: "" });
+  } catch (error) {
+    toast.error(error.response?.data.message || "Something went wrong");
+  }
+},
+
 
   getEmployee: async (params = {}) => {
     try {
@@ -98,36 +99,45 @@ export const UseEmployeeStore = create((set) => ({
   },
 
   deleteEmployee: async (id) => {
-    try {
-      // Delete employee by ID
-      const response = await axiosInstance.delete(`/auth/employees/${id}`);
+  try {
+    const response = await axiosInstance.delete(`/auth/employees/${id}`);
 
-      // Show success message
-      toast.success(response.data.message);
-    } catch (error) {
-      // Show error message
-      toast.error(error.response.data.message);
-    }
-  },
+    toast.success(response.data.message);
+
+    // 🔥 REFRESH EMPLOYEES (keep current page)
+    const { pagination } = get();
+    await get().getEmployee({
+      page: pagination?.page || 1,
+      search: "",
+    });
+  } catch (error) {
+    toast.error(error.response?.data.message);
+  }
+},
+
 
   updateEmployee: async (data) => {
-    try {
-      // Destructure update fields
-      const { id, email, name } = data;
+  try {
+    const { id, email, name } = data;
 
-      // Update employee details
-      const response = await axiosInstance.put(`/auth/employees/${id}`, {
-        email,
-        name,
-      });
+    const response = await axiosInstance.put(`/auth/employees/${id}`, {
+      email,
+      name,
+    });
 
-      // Show success message
-      toast.success(response.data.message);
-    } catch (error) {
-      // Show error message
-      toast.error(error.response.data.message);
-    }
-  },
+    toast.success(response.data.message);
+
+    // 🔥 REFRESH EMPLOYEES
+    const { pagination } = get();
+    await get().getEmployee({
+      page: pagination?.page || 1,
+      search: "",
+    });
+  } catch (error) {
+    toast.error(error.response?.data.message);
+  }
+},
+
 
   // ===================== SHIFTS UPDATE & DELETE =====================
   deleteSchedule: async (id) => {
