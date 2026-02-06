@@ -1,4 +1,4 @@
-import { LogOut, Settings, MenuSquareIcon, MoveUpLeft } from "lucide-react";
+import { LogOut, Settings, MenuSquareIcon, MoveLeft } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UseEmployeeStore } from "../store/StateManager";
 import { useState } from "react";
@@ -66,8 +66,9 @@ const Header = () => {
                 show ? "flex" : "hidden"
               } z-50`}
             >
-              <MoveUpLeft
+              <MoveLeft
                 className="cursor-pointer mb-2"
+                size={20}
                 onClick={() => setShow(false)}
               />
 
