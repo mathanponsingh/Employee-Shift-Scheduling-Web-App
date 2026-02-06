@@ -246,9 +246,6 @@ export const UseEmployeeStore = create((set,get) => ({
       // Fetch all admins
       const response = await axiosInstance.get("/auth/admins");
 
-      // Log response for debugging
-      console.log(response);
-
       // Update admins list
       set({ admins: response.data });
     } catch (error) {
