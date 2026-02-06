@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../utils/axiosInstance";
+import {toast} from 'react-hot-toast'
 
 export const useEmployee = create((set, get) => ({
   employee: null,
@@ -9,6 +10,7 @@ export const useEmployee = create((set, get) => ({
     try {
       const response = await axiosInstance.post("/auth/employee-login", data);
       set({ employee: response.data });
+      toast.error(error.response.data.message);
     } catch (error) {
       console.log(error);
     }
@@ -17,6 +19,7 @@ export const useEmployee = create((set, get) => ({
     try {
       const response = await axiosInstance.get("/auth/employee-checkauth");
       set({ employee: response.data.user });
+      
     } catch (error) {
       console.log(error);
     }
@@ -38,10 +41,11 @@ export const useEmployee = create((set, get) => ({
           employee: null,
           user: null,
           shifts: [],
-        });
+        }); 
       }
+      toast.success(response.data.message);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   },
 }));
