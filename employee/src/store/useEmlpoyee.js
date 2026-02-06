@@ -6,10 +6,11 @@ export const useEmployee = create((set, get) => ({
   employee: null,
   user: null,
   shifts: [],
+  isAuthenticated:false,
   login: async (data) => {
     try {
       const response = await axiosInstance.post("/auth/employee-login", data);
-      set({ employee: response.data });
+      set({ employee: response.data,isAuthenticated:true });
       toast.error(error.response.data.message);
     } catch (error) {
       console.log(error);
@@ -41,6 +42,7 @@ export const useEmployee = create((set, get) => ({
           employee: null,
           user: null,
           shifts: [],
+          isAuthenticated:false
         }); 
       }
       toast.success(response.data.message);
