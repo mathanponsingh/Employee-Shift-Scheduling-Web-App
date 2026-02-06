@@ -110,7 +110,7 @@ const EmployeeDashboard = () => {
 
         {/* Highlighted Next Shift */}
         {currentShift?.length > 0 ? (
-          <div className="bg-blue-600 rounded-3xl p-10 text-white mb-10 shadow-xl shadow-blue-100">
+          <div className="bg-blue-600 rounded-3xl p-10 text-white mb-10">
             <div className="flex items-center gap-2 mb-4">
               <ClockIcon /> <span>Current Shift</span>
             </div>
