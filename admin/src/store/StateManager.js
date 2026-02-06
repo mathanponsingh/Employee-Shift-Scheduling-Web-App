@@ -39,26 +39,23 @@ export const UseEmployeeStore = create((set,get) => ({
   },
 
   addShift: async (data) => {
-    try {
-      // Log shift data for debugging
-      console.log(data);
+  try {
+    const response = await axiosInstance.post("/auth/shifts", {
+      employeeId: Number(data.employeeId),
+      date: data.date,
+      startTime: data.startTime,
+      endTime: data.endTime,
+    });
 
-      // Create new shift
-      const response = await axiosInstance.post("/auth/shifts", {
-        employeeId: Number(data.employeeId), // Ensure employeeId is a number
-        date: data.date,
-        startTime: data.startTime,
-        endTime: data.endTime,
-      });
+    toast.success(response.data.message);
 
-      // Show success message
-      toast.success(response.data.message);
-    } catch (error) {
-      // Show error message
-      toast.error(error.response.data.message);
-    }
-  },
-
+    // 🔥 REFRESH SHIFTS
+    await get().getShifts();
+  } catch (error) {
+    toast.error(error.response?.data.message);
+  }
+},
+  
   // ===================== EMPLOYEES =====================
   createEmployee: async (data) => {
   try {
@@ -141,46 +138,42 @@ export const UseEmployeeStore = create((set,get) => ({
 
   // ===================== SHIFTS UPDATE & DELETE =====================
   deleteSchedule: async (id) => {
-    try {
-      // Delete shift by ID
-      const response = await axiosInstance.delete(`/auth/shifts/${id}`);
+  try {
+    const response = await axiosInstance.delete(`/auth/shifts/${id}`);
 
-      // Show success message
-      toast.success(response.data.message);
-    } catch (error) {
-      // Show error message
-      toast.error(error.response.data.message);
-    }
-  },
+    toast.success(response.data.message);
 
-  updateShifts: async (data) => {
-    try {
-      // Destructure shift update data
-      const { id, startTime, endTime, date } = data;
+    // 🔥 REFRESH SHIFTS
+    await get().getShifts();
+  } catch (error) {
+    toast.error(error.response?.data.message);
+  }
+},
 
-      // Validate required fields
-      if (!id || !startTime || !endTime || !date) {
-        console.error("Missing required fields", data);
-        return;
-      }
 
-      // Payload mapping to backend fields
-      const payload = {
-        shift_date: date,
-        start_time: startTime,
-        end_time: endTime,
-      };
+ updateShifts: async (data) => {
+  try {
+    const { id, startTime, endTime, date } = data;
 
-      // Update shift
-      const response = await axiosInstance.put(`/auth/shifts/${id}`, payload);
+    if (!id || !startTime || !endTime || !date) return;
 
-      // Show success message
-      toast.success(response.data.message);
-    } catch (error) {
-      // Show error message
-      toast.error(error.response.data.message);
-    }
-  },
+    const payload = {
+      shift_date: date,
+      start_time: startTime,
+      end_time: endTime,
+    };
+
+    const response = await axiosInstance.put(`/auth/shifts/${id}`, payload);
+
+    toast.success(response.data.message);
+
+    // 🔥 REFRESH SHIFTS
+    await get().getShifts();
+  } catch (error) {
+    toast.error(error.response?.data.message);
+  }
+},
+
 
   // ===================== AUTH =====================
   loginAdmin: async (data) => {
