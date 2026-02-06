@@ -37,7 +37,7 @@ export const useEmployee = create((set, get) => ({
       set({ employee: response.data.user });
       
     } catch (error) {
-      console.log(error);
+      console.log(error.response?.data?.message);
     }
   },
   getShifts: async () => {
