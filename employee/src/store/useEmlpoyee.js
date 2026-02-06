@@ -11,9 +11,9 @@ export const useEmployee = create((set, get) => ({
     try {
       const response = await axiosInstance.post("/auth/employee-login", data);
       set({ employee: response.data,isAuthenticated:true });
-      toast.error(error.response.data.message);
+      toast.sucess(response.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   },
   checkAuth: async () => {
