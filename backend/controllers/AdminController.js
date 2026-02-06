@@ -410,7 +410,6 @@ export const exportShifts = async (req, res) => {
 
     const params = [];
 
-    // Apply date filter if provided
     if (startDate && endDate) {
       sql += " WHERE s.shift_date BETWEEN ? AND ?";
       params.push(startDate, endDate);
@@ -420,11 +419,9 @@ export const exportShifts = async (req, res) => {
 
     const [rows] = await db.query(sql, params);
 
-    // Create Excel workbook and sheet
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Shifts");
 
-    // Define Excel columns
     worksheet.columns = [
       { header: "Employee", key: "Employee", width: 20 },
       { header: "Email", key: "Email", width: 30 },
@@ -435,7 +432,6 @@ export const exportShifts = async (req, res) => {
       { header: "Duration (Hrs)", key: "Duration", width: 15 },
     ];
 
-    // Add rows and calculate duration
     rows.forEach((row) => {
       let duration = 0;
 
@@ -451,13 +447,9 @@ export const exportShifts = async (req, res) => {
         duration = ((endMinutes - startMinutes) / 60).toFixed(2);
       }
 
-      worksheet.addRow({
-        ...row,
-        Duration: duration,
-      });
+      worksheet.addRow({ ...row, Duration: duration });
     });
 
-    // Style header row
     worksheet.getRow(1).font = { bold: true };
     worksheet.getRow(1).fill = {
       type: "pattern",
@@ -465,24 +457,25 @@ export const exportShifts = async (req, res) => {
       fgColor: { argb: "FFE0E0E0" },
     };
 
-    // Set response headers for file download
-    res.setHeader(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    );
-    res.setHeader(
-      "Content-Disposition",
-      "attachment; filename=shifts_export.xlsx",
-    );
+    // ✅ PRODUCTION-SAFE DOWNLOAD
+    const buffer = await workbook.xlsx.writeBuffer();
 
-    // Send Excel file
-    await workbook.xlsx.write(res);
-    res.end();
+    res.status(200)
+      .set({
+        "Content-Type":
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "Content-Disposition":
+          "attachment; filename=shifts_export.xlsx",
+        "Content-Length": buffer.length,
+      })
+      .send(buffer);
+
   } catch (error) {
     console.error("Export error:", error);
     res.status(500).json({ message: "Failed to export shifts" });
   }
 };
+
 
 // ===================== CHECK AUTH =====================
 export const checkAuth = async (req, res) => {
