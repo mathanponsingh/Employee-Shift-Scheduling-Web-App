@@ -1,12 +1,13 @@
 import { LogOut, Settings, MenuSquareIcon } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UseEmployeeStore } from "../store/StateManager";
+import { useState } from "react";
 
 // Header / Navbar component
 const Header = () => {
   // Logout function from global store
   const { logout } = UseEmployeeStore();
-
+  const [show,setShow] = useState()
   // Navigation hook
   const navigate = useNavigate();
 
@@ -63,11 +64,50 @@ const Header = () => {
             <MenuSquareIcon className="cursor-pointer" />
 
             {/* Dropdown menu (shown on hover) */}
-            <div className="hidden absolute right-0 bg-white p-3 rounded flex-col group-hover:flex z-100">
-              <NavLink to="/home">Dashboard</NavLink>
-              <NavLink to="/employee">Employees</NavLink>
-              <NavLink to="/schedule">Schedule</NavLink>
-              <NavLink to="/Settings">Settings</NavLink>
+            <div
+              className={`hidden absolute right-0 bg-white p-3 rounded flex-col ${show? "flex":''} z-50`}
+            >
+              <MoveUpLeft onClick={() => setShow(false)} />
+              <NavLink
+                className={({ isActive }) =>
+                  `cursor-pointer hover:text-blue-600 ${
+                    isActive ? "text-blue-600 font-semibold" : ""
+                  }`
+                }
+                to="/home"
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                className={({ isActive }) =>
+                  `cursor-pointer hover:text-blue-600 ${
+                    isActive ? "text-blue-600 font-semibold" : ""
+                  }`
+                }
+                to="/employee"
+              >
+                Employees
+              </NavLink>
+              <NavLink
+                className={({ isActive }) =>
+                  `cursor-pointer hover:text-blue-600 ${
+                    isActive ? "text-blue-600 font-semibold" : ""
+                  }`
+                }
+                to="/schedule"
+              >
+                Schedule
+              </NavLink>
+              <NavLink
+                className={({ isActive }) =>
+                  `cursor-pointer hover:text-blue-600 ${
+                    isActive ? "text-blue-600 font-semibold" : ""
+                  }`
+                }
+                to="/Settings"
+              >
+                Settings
+              </NavLink>
 
               {/* Logout button */}
               <button
