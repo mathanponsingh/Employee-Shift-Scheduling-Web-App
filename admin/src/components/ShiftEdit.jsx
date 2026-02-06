@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 const ShiftEdit = ({ setShow }) => {
   // Get employee list and addShift action from store
   const { employee, addShift } = UseEmployeeStore();
-
+  const [loading, setLoading] = useState(false);
   // Local form state
   const [form, setForm] = useState({
     employeeId: "",
@@ -28,10 +28,10 @@ const ShiftEdit = ({ setShow }) => {
 
     // Optional formatting (date normalization)
     form.date = form.date.split(":")[0];
-
+    setLoading(true);
     // Call backend/store to add shift
     await addShift(form);
-
+    setLoading(false)
     // Close modal after successful submission
     setShow(false);
   };
@@ -112,9 +112,10 @@ const ShiftEdit = ({ setShow }) => {
         {/* Submit button */}
         <button
           type="submit"
+          disabled={loading}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium"
         >
-          Assign Shift
+          {!loading ? "Assign Shift" : "Assigning..."}
         </button>
       </form>
     </div>
