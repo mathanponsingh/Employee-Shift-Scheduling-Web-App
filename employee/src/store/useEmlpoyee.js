@@ -8,14 +8,29 @@ export const useEmployee = create((set, get) => ({
   shifts: [],
   isAuthenticated:false,
   login: async (data) => {
-    try {
-      const response = await axiosInstance.post("/auth/employee-login", data);
-      set({ employee: response.data,isAuthenticated:true });
-      toast.sucess("Login successfully");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
-    }
-  },
+  try {
+    const response = await axiosInstance.post(
+      "/auth/employee-login",
+      data,
+      { withCredentials: true }
+    );
+
+    set({
+      employee: {
+        id: response.data.employeeId,
+        name: response.data.name,
+      },
+      isAuthenticated: true,
+    });
+
+    toast.success(response.data.message);
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message || "Something went wrong"
+    );
+  }
+},
+
   checkAuth: async () => {
     try {
       const response = await axiosInstance.get("/auth/employee-checkauth");
