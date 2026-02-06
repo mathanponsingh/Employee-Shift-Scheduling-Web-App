@@ -12,6 +12,7 @@ const AddEmployeeModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("Employee");
+  const [loading,setLoading] = useState(false)
 
   // Form submit handler
   const handleSubmit = async (e) => {
@@ -22,14 +23,14 @@ const AddEmployeeModal = ({ isOpen, onClose }) => {
       toast.error("Enter password at least 6 characters");
       return;
     }
-
+    setLoading(true)
     // Create admin or employee based on role
     if (role === "Admin") {
       await createAdmin({ name: fullName, email, password });
     } else {
       await createEmployee({ name: fullName, email, password, role });
     }
-
+    setLoading(false)
     // Reset form fields after submission
     setFullName("");
     setEmail("");
@@ -116,9 +117,10 @@ const AddEmployeeModal = ({ isOpen, onClose }) => {
           {/* Submit button */}
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition"
           >
-            Create Employee
+            {!loading ?  'Create Employee' : 'Creating...'}
           </button>
         </form>
       </div>
