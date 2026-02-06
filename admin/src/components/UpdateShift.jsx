@@ -87,7 +87,7 @@ const UpdateShift = ({ id, name, setShowUpdate }) => {
           disabled={loading}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium"
         >
-          Assign Shift
+          {!loading ? "Assign Shift" : "Assigning"}
         </button>
       </form>
     </div>
