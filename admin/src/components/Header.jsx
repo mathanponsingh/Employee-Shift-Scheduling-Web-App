@@ -1,4 +1,4 @@
-import { LogOut, Settings, MenuSquareIcon } from "lucide-react";
+import { LogOut, Settings, MenuSquareIcon, MoveUpLeft } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UseEmployeeStore } from "../store/StateManager";
 import { useState } from "react";
