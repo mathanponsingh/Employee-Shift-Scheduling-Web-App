@@ -12,16 +12,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     setLoading(true);
-
-    try {
-      login({ email, password });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    await login({ email, password });
+    setLoading(false);
   };
 
   return (
