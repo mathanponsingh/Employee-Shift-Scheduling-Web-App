@@ -13,9 +13,14 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    await loginAdmin({ email, password });
-    setLoading(false)
+    setLoading(true)
+    try {
+      await loginAdmin({ email, password });
+    } catch (error) {
+      // statemanager handle this
+    }finally{
+      setLoading(false);
+    }
   };
 
   return (
