@@ -13,7 +13,7 @@ export const useEmployee = create((set, get) => ({
       set({ employee: response.data,isAuthenticated:true });
       toast.sucess("Login successfully");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   },
   checkAuth: async () => {
