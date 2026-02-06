@@ -3,25 +3,21 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { UseEmployeeStore } from "../store/StateManager";
 import { useState } from "react";
 
-// Header / Navbar component
 const Header = () => {
-  // Logout function from global store
   const { logout } = UseEmployeeStore();
-  const [show,setShow] = useState(false)
-  // Navigation hook
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
   return (
     <div className="w-full">
-      {/* Header container */}
       <header className="flex justify-between items-center mb-6 p-4 bg-white shadow">
         <div className="flex items-center justify-between w-full">
-          {/* App title */}
+          
+          {/* Logo */}
           <h1 className="text-2xl font-bold">ShiftMaster</h1>
 
-          {/* Desktop navigation */}
+          {/* Desktop Navigation */}
           <nav className="hidden sm:flex gap-4 text-gray-600">
-            {/* Dashboard link */}
             <NavLink
               to="/home"
               className={({ isActive }) =>
@@ -33,7 +29,6 @@ const Header = () => {
               Dashboard
             </NavLink>
 
-            {/* Employees link */}
             <NavLink
               to="/employee"
               className={({ isActive }) =>
@@ -45,7 +40,6 @@ const Header = () => {
               Employees
             </NavLink>
 
-            {/* Schedule link */}
             <NavLink
               to="/schedule"
               className={({ isActive }) =>
@@ -58,74 +52,92 @@ const Header = () => {
             </NavLink>
           </nav>
 
-          {/* Mobile menu */}
-          <div className="sm:hidden relative group">
-            {/* Hamburger icon */}
-            <MenuSquareIcon className="cursor-pointer" onClick={() => setShow(true)}/>
+          {/* Mobile Menu */}
+          <div className="sm:hidden relative">
+            {/* Hamburger */}
+            <MenuSquareIcon
+              className="cursor-pointer"
+              onClick={() => setShow(!show)}
+            />
 
-            {/* Dropdown menu (shown on hover) */}
+            {/* Dropdown */}
             <div
-              className={`hidden absolute right-0 bg-white p-3 rounded flex-col ${show? "flex":''} z-50`}
+              className={`absolute right-0 bg-white p-3 rounded flex-col shadow ${
+                show ? "flex" : "hidden"
+              } z-50`}
             >
-              <MoveUpLeft onClick={() => setShow(false)} />
+              <MoveUpLeft
+                className="cursor-pointer mb-2"
+                onClick={() => setShow(false)}
+              />
+
               <NavLink
+                to="/home"
+                onClick={() => setShow(false)}
                 className={({ isActive }) =>
                   `cursor-pointer hover:text-blue-600 ${
                     isActive ? "text-blue-600 font-semibold" : ""
                   }`
                 }
-                to="/home"
               >
                 Dashboard
               </NavLink>
+
               <NavLink
+                to="/employee"
+                onClick={() => setShow(false)}
                 className={({ isActive }) =>
                   `cursor-pointer hover:text-blue-600 ${
                     isActive ? "text-blue-600 font-semibold" : ""
                   }`
                 }
-                to="/employee"
               >
                 Employees
               </NavLink>
+
               <NavLink
+                to="/schedule"
+                onClick={() => setShow(false)}
                 className={({ isActive }) =>
                   `cursor-pointer hover:text-blue-600 ${
                     isActive ? "text-blue-600 font-semibold" : ""
                   }`
                 }
-                to="/schedule"
               >
                 Schedule
               </NavLink>
+
               <NavLink
+                to="/settings"
+                onClick={() => setShow(false)}
                 className={({ isActive }) =>
                   `cursor-pointer hover:text-blue-600 ${
                     isActive ? "text-blue-600 font-semibold" : ""
                   }`
                 }
-                to="/settings"
               >
                 Settings
               </NavLink>
 
-              {/* Logout button */}
               <button
-                onClick={logout}
-                className="cursor-pointer hover:text-blue-600 flex justify-start"
+                onClick={() => {
+                  logout();
+                  setShow(false);
+                }}
+                className="cursor-pointer hover:text-blue-600 text-left"
               >
                 Logout
               </button>
             </div>
           </div>
 
-          {/* Desktop icons */}
+          {/* Desktop Icons */}
           <div className="hidden sm:flex gap-2">
-            {/* Settings icon */}
-            <Settings onClick={() => navigate("/settings")} />
-
-            {/* Logout icon */}
-            <LogOut onClick={logout} />
+            <Settings
+              className="cursor-pointer"
+              onClick={() => navigate("/settings")}
+            />
+            <LogOut className="cursor-pointer" onClick={logout} />
           </div>
         </div>
       </header>
