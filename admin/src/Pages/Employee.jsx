@@ -62,27 +62,30 @@ const EmployeesPage = () => {
       <Header />
 
       {/* Page header */}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Employees</h2>
+      <div className="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">
+  <h2 className="text-2xl font-bold">Employees</h2>
 
-        {/* Search + Add */}
-        <div className="flex flex-wrap items-center gap-4">
-          <input
-            type="text"
-            placeholder="Search employees..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-          />
+  {/* Search + Add */}
+  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+    <input
+      type="text"
+      placeholder="Search employees..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      className="w-full sm:w-64 px-4 py-2 border rounded-md 
+                 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
 
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-blue-600 text-white px-4 py-2 w-full rounded-md cursor-pointer hover:bg-blue-700"
-          >
-            + Add Employee
-          </button>
-        </div>
-      </div>
+    <button
+      onClick={() => setIsModalOpen(true)}
+      className="bg-blue-600 text-white px-4 py-2 rounded-md 
+                 hover:bg-blue-700 transition whitespace-nowrap"
+    >
+      + Add Employee
+    </button>
+  </div>
+</div>
+
 
       <p className="text-gray-500 mb-4">Manage your team members and roles.</p>
 
