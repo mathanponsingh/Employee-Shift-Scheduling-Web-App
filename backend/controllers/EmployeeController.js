@@ -21,7 +21,9 @@ export const loginEmployee = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
-
+    if(password.length<6){
+      return res.status(400).json({message:"Password length alteast 6 characters"})
+    }
     // Fetch employee by email
     const [rows] = await db.query("SELECT * FROM employees WHERE email = ?", [
       email,
