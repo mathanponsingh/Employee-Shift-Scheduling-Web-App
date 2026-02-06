@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
 import { useEmployee } from "./store/useEmlpoyee";
 import SettingsPage from "./components/settings";
-
+import { Toaster} from 'react-hot-toast'
 const App = () => {
   const { employee, checkAuth, user } = useEmployee();
   const { theme } = useThemeStore();
@@ -15,9 +15,10 @@ const App = () => {
     if(!employee){
       checkAuth();
     }
-  }, [user]);
+  }, []);
   return (
     <div data-theme={theme}>
+      <Toaster/>
       <Routes>
         <Route
           path="/"
