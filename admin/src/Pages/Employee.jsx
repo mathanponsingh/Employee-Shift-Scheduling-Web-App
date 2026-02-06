@@ -66,7 +66,7 @@ const EmployeesPage = () => {
         <h2 className="text-2xl font-bold">Employees</h2>
 
         {/* Search + Add */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <input
             type="text"
             placeholder="Search employees..."
@@ -77,7 +77,7 @@ const EmployeesPage = () => {
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            className="bg-blue-600 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-700"
           >
             + Add Employee
           </button>
