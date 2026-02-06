@@ -45,7 +45,7 @@ export const useEmployee = create((set, get) => ({
       const response = await axiosInstance.get("/auth/employee/shift");
       set({ shifts: response.data });
     } catch (error) {
-      console.log(error);
+      console.log(error.response?.data?.message);
     }
   },
 
