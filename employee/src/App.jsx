@@ -12,9 +12,7 @@ const App = () => {
   
 
   useEffect(() => {
-    if(!employee){
       checkAuth();
-    }
   }, []);
   return (
     <div data-theme={theme}>
