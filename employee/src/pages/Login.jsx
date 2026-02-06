@@ -9,22 +9,15 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setError("");
+    
     setLoading(true);
 
     try {
-      const result = await login({ email, password });
-
-      if (!result?.success) {
-        setError(result?.message || "Login failed");
-      }
+      login({ email, password });
     } catch (err) {
-      setError("Something went wrong. Please try again.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -39,10 +32,6 @@ const Login = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* ERROR MESSAGE */}
-          {error && (
-            <p className="text-red-500 text-sm text-center">{error}</p>
-          )}
 
           {/* EMAIL */}
           <div>
