@@ -11,8 +11,7 @@ export const useEmployee = create((set, get) => ({
   try {
     const response = await axiosInstance.post(
       "/auth/employee-login",
-      data,
-      { withCredentials: true }
+      data
     );
 
     set({
