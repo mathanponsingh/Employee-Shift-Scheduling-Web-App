@@ -201,7 +201,7 @@ export const UseEmployeeStore = create((set,get) => ({
       set({ admin: response.data.user });
     } catch (error) {
       // Log authentication error
-      console.log(error.response.data.message);
+      toast.error(error.response?.data.message);
     }
   },
 
