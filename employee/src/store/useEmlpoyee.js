@@ -1,48 +1,44 @@
 import { create } from "zustand";
 import { axiosInstance } from "../utils/axiosInstance";
-import { toast } from "react-hot-toast";
+import {toast} from 'react-hot-toast'
 
-export const useEmployee = create((set) => ({
+export const useEmployee = create((set, get) => ({
   employee: null,
+  user: null,
   shifts: [],
-  isAuthenticated: false,
-  loading: false,
-
+  isAuthenticated:false,
   login: async (data) => {
-    try {
-      set({ loading: true });
+  try {
+    const response = await axiosInstance.post(
+      "/auth/employee-login",
+      data
+    );
 
-      const response = await axiosInstance.post(
-        "/auth/employee-login",
-        data
-      );
+    set({
+      employee: {
+        id: response.data.employeeId,
+        name: response.data.name,
+      },
+      isAuthenticated: true,
+    });
 
-      set({
-        employee: response.data.employee,
-        isAuthenticated: true,
-        loading: false,
-      });
-
-      toast.success(response.data.message);
-    } catch (error) {
-      set({ loading: false });
-      toast.error(error.response?.data?.message || "Login failed");
-    }
-  },
+    toast.success(response.data.message);
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message || "Something went wrong"
+    );
+  }
+},
 
   checkAuth: async () => {
     try {
       const response = await axiosInstance.get("/auth/employee-checkauth");
-
-      set({
-        employee: response.data.user,
-        isAuthenticated: true,
-      });
-    } catch {
-      set({ employee: null, isAuthenticated: false });
+      set({ employee: response.data.user });
+      
+    } catch (error) {
+      console.log(error.response?.data?.message);
     }
   },
-
   getShifts: async () => {
     try {
       const response = await axiosInstance.get("/auth/employee/shift");
@@ -53,12 +49,19 @@ export const useEmployee = create((set) => ({
   },
 
   logout: async () => {
-    await axiosInstance.post("/auth/employee-logout");
-    set({
-      employee: null,
-      shifts: [],
-      isAuthenticated: false,
-    });
-    toast.success("Logged out successfully");
+    try {
+      const response = await axiosInstance.post("/auth/employee-logout");
+      if (response.status === 200) {
+        set({
+          employee: null,
+          user: null,
+          shifts: [],
+          isAuthenticated:false
+        }); 
+      }
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   },
 }));
