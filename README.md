@@ -106,7 +106,4 @@ Employee-Shift-Scheduling-Web-App/
 
 The project is configured for deployment on **Vercel**.
 
-## 🌐 Links
-employee: https://employee-shift-scheduling-web-app-e.vercel.app/
-admin: https://employee-shift-scheduling-web-app-admin.vercel.app/
 
